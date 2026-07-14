@@ -1,0 +1,13 @@
+{
+  "name": "salesiq-mock-crm",
+  "version": "0.1.0",
+  "private": true,
+  "description": "JSON Server mock CRM exposing 3 REST domains (pipeline, accounts, reps) for SalesIQ.",
+  "scripts": {
+    "start": "json-server --watch crm_db.json --port 3001",
+    "crm": "json-server --watch crm_db.json --port 3001"
+  },
+  "devDependencies": {
+    "json-server": "0.17.4"
+  }
+}

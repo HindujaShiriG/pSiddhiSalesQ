@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+
+# SalesIQ artifacts
+backend/salesiq.db
+backend/mlruns/
+backend/models/
+backend/htmlcov/
+backend/.coverage
+.pytest_cache/
+
+# Node
+node_modules/
+frontend/dist/
+
+# Env / secrets
+.env
+!*.env.example
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
