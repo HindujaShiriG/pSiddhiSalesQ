@@ -18,7 +18,10 @@ export const api = {
   deals: (stage) => get(`/pipeline/deals${stage ? `?stage=${encodeURIComponent(stage)}` : ""}`),
   accounts: (band) => get(`/accounts${band ? `?health_band=${encodeURIComponent(band)}` : ""}`),
   accountDetail: (id) => get(`/accounts/${id}`),
+  reps: () => get("/reps"),
+  scenarios: () => get("/intelligence/scenarios"),
   narrative: (scenario = "strong_quarter") => get(`/intelligence/narrative?scenario=${scenario}`),
+  models: () => get("/admin/models"),
   refresh: async () => {
     await post("/admin/ingest");
     await post("/admin/train");

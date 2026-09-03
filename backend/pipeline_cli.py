@@ -39,9 +39,11 @@ def main() -> None:
             print(f"   {name}: {m['algorithm']} {m['metric']}={m['metric_value']} "
                   f"(meets target: {m['meets_target']})")
 
-        print("== Scoring deals ==")
+        print("== Scoring deals & classifying accounts ==")
         scored = predict.score_open_deals(session)
-        print(f"   {scored}")
+        classified = predict.predict_account_health(session)
+        print(f"   deals scored: {scored}")
+        print(f"   accounts classified: {classified}")
 
         print("== Sample AI narrative (strong_quarter) ==")
         result = narrative.generate(session, "strong_quarter")

@@ -130,6 +130,19 @@ class AccountDetail(BaseModel):
     weighted_pipeline_value: float
 
 
+class RepOut(BaseModel):
+    rep_id: str
+    name: str
+    region: str
+    segment: str
+    quota: float
+    attainment_pct: float
+    historical_win_rate: float
+    activities_last_30d: int
+    avg_deal_cycle_days: int
+
+
+
 class IngestReport(BaseModel):
     domain: str
     received: int
@@ -142,3 +155,16 @@ class IngestSummary(BaseModel):
     reports: list[IngestReport]
     total_accepted: int
     total_rejected: int
+
+
+class ScenarioOut(BaseModel):
+    available: list[str]
+    planned_phase2: list[str] = []
+
+
+class NarrativeOut(BaseModel):
+    scenario: str
+    source: str
+    narrative: str
+    brief: dict
+

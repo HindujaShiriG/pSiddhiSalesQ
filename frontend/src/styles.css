@@ -85,3 +85,40 @@ tbody tr:hover { background: var(--panel-2); }
 .narrative { white-space: pre-wrap; line-height: 1.55; font-size: 13.5px; color: var(--text); }
 .source-tag { font-size: 11px; color: var(--muted); margin-left: 8px; }
 .state { color: var(--muted); padding: 40px; text-align: center; }
+
+/* Filter & search controls */
+.search-input {
+  width: 100%;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  outline: none;
+}
+.search-input:focus { border-color: var(--accent); }
+
+.filter-pill {
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 5px 10px;
+  border-radius: 14px;
+  font-size: 11.5px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.filter-pill:hover { color: var(--text); }
+.filter-pill.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  font-weight: 600;
+}
+
+/* Scenario selector tabs */
+.scenario-tab:hover {
+  background: var(--panel-2) !important;
+}
+

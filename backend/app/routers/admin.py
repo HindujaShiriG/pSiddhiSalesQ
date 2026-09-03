@@ -35,16 +35,22 @@ def run_train(session: Session = Depends(get_session)) -> dict:
 def run_score(session: Session = Depends(get_session)) -> dict:
     if not (registry.model_exists("win_scorer") and registry.model_exists("revenue_forecaster")):
         raise HTTPException(status_code=409, detail="models not trained — POST /api/admin/train first")
-    return predict.score_open_deals(session)
+    deal_results = predict.score_open_deals(session)
+    health_results = predict.predict_account_health(session)
+    return {
+        "deals": deal_results,
+        "accounts": health_results,
+    }
 
 
 @router.get("/models")
 def model_status() -> dict:
     out = {}
-    for name in ("win_scorer", "revenue_forecaster"):
+    for name in ("win_scorer", "revenue_forecaster", "health_classifier"):
         if registry.model_exists(name):
             _, meta = registry.load_model(name)
             out[name] = meta
         else:
             out[name] = {"status": "not_trained"}
     return out
+

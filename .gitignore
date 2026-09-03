@@ -11,6 +11,8 @@ backend/mlruns/
 backend/models/
 backend/htmlcov/
 backend/.coverage
+.coverage
+.coverage.*
 .pytest_cache/
 
 # Node

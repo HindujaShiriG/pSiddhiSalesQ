@@ -1,6 +1,8 @@
 import { NavLink, Route, Routes } from "react-router-dom";
 import PipelineOverview from "./screens/PipelineOverview.jsx";
 import AccountDetail from "./screens/AccountDetail.jsx";
+import RepPerformance from "./screens/RepPerformance.jsx";
+import AIIntelligence from "./screens/AIIntelligence.jsx";
 
 function Sidebar() {
   return (
@@ -14,8 +16,12 @@ function Sidebar() {
         <NavLink to="/accounts" className={({ isActive }) => (isActive ? "active" : "")}>
           Account Detail
         </NavLink>
-        <a className="soon">Rep Performance · Wk 11</a>
-        <a className="soon">AI Intelligence · Wk 12</a>
+        <NavLink to="/reps" className={({ isActive }) => (isActive ? "active" : "")}>
+          Rep Performance
+        </NavLink>
+        <NavLink to="/intelligence" className={({ isActive }) => (isActive ? "active" : "")}>
+          AI Intelligence
+        </NavLink>
       </nav>
     </aside>
   );
@@ -30,6 +36,8 @@ export default function App() {
           <Route path="/" element={<PipelineOverview />} />
           <Route path="/accounts" element={<AccountDetail />} />
           <Route path="/accounts/:accountId" element={<AccountDetail />} />
+          <Route path="/reps" element={<RepPerformance />} />
+          <Route path="/intelligence" element={<AIIntelligence />} />
         </Routes>
       </main>
     </div>

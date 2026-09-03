@@ -95,3 +95,52 @@ def revenue_training_frame(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.Series]:
     y = won["amount"].astype(float)
     X = won[REVENUE_FEATURES].copy()
     return X, y
+
+
+# --------------------------------------------------------------------------- #
+# Account Health Classifier (Phase 2 / Week 11 deliverable)
+# --------------------------------------------------------------------------- #
+HEALTH_NUMERIC = [
+    "arr",
+    "engagement_score",
+    "support_tickets_30d",
+    "expansion_velocity",
+    "avg_response_hours",
+    "days_to_renewal",
+    "ticket_intensity",
+    "disengagement",
+]
+HEALTH_CATEGORICAL = ["industry", "segment", "region"]
+HEALTH_FEATURES = HEALTH_NUMERIC + HEALTH_CATEGORICAL
+
+
+def build_account_frame(session: Session) -> pd.DataFrame:
+    """Return account rows with engineered risk signals for health classification."""
+    q = session.query(
+        models.Account.account_id,
+        models.Account.name,
+        models.Account.industry,
+        models.Account.segment,
+        models.Account.region,
+        models.Account.arr,
+        models.Account.engagement_score,
+        models.Account.support_tickets_30d,
+        models.Account.expansion_velocity,
+        models.Account.avg_response_hours,
+        models.Account.days_to_renewal,
+        models.Account.health_band,
+    )
+    df = pd.read_sql(q.statement, session.bind)
+    if not df.empty:
+        df["ticket_intensity"] = df["support_tickets_30d"] / 45.0
+        df["disengagement"] = 1.0 - df["engagement_score"]
+    return df
+
+
+def health_training_frame(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.Series]:
+    """Return feature matrix X and target y (health_band) for supervised training."""
+    valid = df[df["health_band"].notna()].copy()
+    y = valid["health_band"].astype(str)
+    X = valid[HEALTH_FEATURES].copy()
+    return X, y
+

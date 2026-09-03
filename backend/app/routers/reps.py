@@ -11,12 +11,13 @@ from sqlalchemy.orm import Session
 
 from .. import models
 from ..db import get_session
+from ..schemas import RepOut
 
 router = APIRouter(prefix="/api/reps", tags=["reps"])
 
 
-@router.get("")
-def list_reps(limit: int = 100, session: Session = Depends(get_session)) -> list[dict]:
+@router.get("", response_model=list[RepOut])
+def list_reps(limit: int = 100, session: Session = Depends(get_session)) -> list[RepOut]:
     reps = (
         session.query(models.Rep)
         .order_by(models.Rep.historical_win_rate.desc())

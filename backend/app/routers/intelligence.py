@@ -6,25 +6,28 @@ from sqlalchemy.orm import Session
 
 from ..ai import narrative
 from ..db import get_session
+from ..schemas import NarrativeOut, ScenarioOut
 
 router = APIRouter(prefix="/api/intelligence", tags=["intelligence"])
 
 
-@router.get("/scenarios")
-def scenarios() -> dict:
-    """Which scenarios are live now vs planned for Phase 2."""
-    return {
-        "available": list(narrative.PHASE1_SCENARIOS),
-        "planned_phase2": [s for s in narrative.SCENARIOS if s not in narrative.PHASE1_SCENARIOS],
-    }
+@router.get("/scenarios", response_model=ScenarioOut)
+def scenarios() -> ScenarioOut:
+    """Which scenarios are available."""
+    return ScenarioOut(
+        available=list(narrative.AVAILABLE_SCENARIOS),
+        planned_phase2=[],
+    )
 
 
-@router.get("/narrative")
+@router.get("/narrative", response_model=NarrativeOut)
 def get_narrative(
     scenario: str = "strong_quarter",
     session: Session = Depends(get_session),
-) -> dict:
+) -> NarrativeOut:
     try:
-        return narrative.generate(session, scenario)
+        data = narrative.generate(session, scenario)
+        return NarrativeOut(**data)
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
+

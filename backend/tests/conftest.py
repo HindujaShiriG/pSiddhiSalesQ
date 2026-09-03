@@ -13,10 +13,14 @@ import os
 import tempfile
 from pathlib import Path
 
+import sys
 import pytest
 
 BACKEND_DIR = Path(__file__).resolve().parents[1]
 ROOT_DIR = BACKEND_DIR.parent
+if str(BACKEND_DIR) not in sys.path:
+    sys.path.insert(0, str(BACKEND_DIR))
+
 _TMP = Path(tempfile.mkdtemp(prefix="salesiq_test_"))
 _CRM_FILE = _TMP / "crm_db.json"
 
@@ -56,6 +60,7 @@ def _bootstrap():
         ingest_all(session)
         trainer.train_all(session)
         predict.score_open_deals(session)
+        predict.predict_account_health(session)
     finally:
         session.close()
     yield

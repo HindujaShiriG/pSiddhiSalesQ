@@ -24,20 +24,43 @@ def test_strong_quarter_narrative_offline(db_session):
     assert "forecast" in text.lower()
 
 
+def test_at_risk_quarter_narrative_offline(db_session):
+    result = narrative.generate(db_session, "at_risk_quarter")
+    assert result["scenario"] == "at_risk_quarter"
+    assert result["source"] == "fallback"
+    text = result["narrative"]
+    assert "AT-RISK QUARTER" in text
+    assert "risk" in text.lower()
+
+
+def test_recovery_scenario_narrative_offline(db_session):
+    result = narrative.generate(db_session, "recovery")
+    assert result["scenario"] == "recovery"
+    assert result["source"] == "fallback"
+    text = result["narrative"]
+    assert "RECOVERY SCENARIO" in text
+    assert "triage" in text.lower() or "recovery" in text.lower()
+
+
 def test_unknown_scenario_raises(db_session):
     with pytest.raises(ValueError):
         narrative.generate(db_session, "not_a_scenario")
 
 
 def test_intelligence_endpoint(client):
-    r = client.get("/api/intelligence/narrative?scenario=strong_quarter")
-    assert r.status_code == 200
-    body = r.json()
-    assert body["scenario"] == "strong_quarter"
-    assert len(body["narrative"]) > 50
+    for scen in ("strong_quarter", "at_risk_quarter", "recovery"):
+        r = client.get(f"/api/intelligence/narrative?scenario={scen}")
+        assert r.status_code == 200
+        body = r.json()
+        assert body["scenario"] == scen
+        assert len(body["narrative"]) > 50
 
 
 def test_scenarios_endpoint(client):
     r = client.get("/api/intelligence/scenarios")
     assert r.status_code == 200
-    assert "strong_quarter" in r.json()["available"]
+    available = r.json()["available"]
+    assert "strong_quarter" in available
+    assert "at_risk_quarter" in available
+    assert "recovery" in available
+

@@ -47,3 +47,24 @@ def score_open_deals(session: Session) -> dict:
     session.commit()
     logger.info("Scored %d deals with cached predictions", scored)
     return {"scored": scored}
+
+
+def predict_account_health(session: Session) -> dict:
+    """Classify account health using the trained Account Health Classifier."""
+    if not registry.model_exists("health_classifier"):
+        return {"classified": 0, "breakdown": {}}
+
+    df = features.build_account_frame(session)
+    if df.empty:
+        return {"classified": 0, "breakdown": {}}
+
+    model, _ = registry.load_model("health_classifier")
+    predictions = model.predict(df[features.HEALTH_FEATURES])
+
+    breakdown = {}
+    for pred in predictions:
+        breakdown[pred] = breakdown.get(pred, 0) + 1
+
+    logger.info("Classified %d accounts with health model: %s", len(predictions), breakdown)
+    return {"classified": len(predictions), "breakdown": breakdown}
+

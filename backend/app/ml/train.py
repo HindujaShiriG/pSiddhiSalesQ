@@ -23,17 +23,21 @@ training never hard-fails on an MLflow issue.
 from __future__ import annotations
 
 import logging
+import warnings
 from contextlib import contextmanager
+
+warnings.filterwarnings("ignore")
 
 import numpy as np
 import pandas as pd
 from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor, RandomForestClassifier
 from sklearn.linear_model import LinearRegression, LogisticRegression
-from sklearn.metrics import mean_absolute_percentage_error, roc_auc_score
+from sklearn.metrics import f1_score, mean_absolute_percentage_error, roc_auc_score
 from sklearn.model_selection import cross_val_predict, cross_val_score
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.tree import DecisionTreeClassifier
 from sqlalchemy.orm import Session
 
 from ..config import settings
@@ -180,9 +184,61 @@ def train_revenue_forecaster(session: Session) -> dict:
     return meta
 
 
+# --------------------------------------------------------------------------- #
+# Account-health classifier (classification — Phase 2 / Week 11 deliverable)
+# --------------------------------------------------------------------------- #
+def train_health_classifier(session: Session) -> dict:
+    df = features.build_account_frame(session)
+    X, y = features.health_training_frame(df)
+    if len(y) < 10 or y.nunique() < 2:
+        raise ValueError("insufficient accounts to train account health classifier")
+
+    candidates = {
+        "DecisionTree": DecisionTreeClassifier(max_depth=5, random_state=42),
+        "RandomForest": RandomForestClassifier(n_estimators=100, random_state=42),
+        "GradientBoosting": GradientBoostingClassifier(random_state=42),
+    }
+    folds = _cv_folds(len(y))
+    prep = lambda: _preprocessor(features.HEALTH_NUMERIC, features.HEALTH_CATEGORICAL)
+    results = {}
+    for name, clf in candidates.items():
+        pipe = Pipeline([("prep", prep()), ("model", clf)])
+        f1 = cross_val_score(pipe, X, y, cv=folds, scoring="f1_weighted").mean()
+        results[name] = float(f1)
+        logger.info("health_classifier candidate %s: F1=%.3f", name, f1)
+
+    best_name = max(results, key=results.get)
+    best_f1 = results[best_name]
+    best_pipe = Pipeline([("prep", prep()), ("model", candidates[best_name])])
+    best_pipe.fit(X, y)
+
+    meta = {
+        "model": "health_classifier",
+        "algorithm": best_name,
+        "metric": "F1-Score",
+        "metric_value": round(best_f1, 4),
+        "target": 0.75,
+        "meets_target": best_f1 > 0.75,
+        "candidates": {k: round(v, 4) for k, v in results.items()},
+        "n_train": int(len(y)),
+        "features": features.HEALTH_FEATURES,
+    }
+    with _mlflow_run("health_classifier", {"algorithm": best_name, "cv_folds": folds}) as mf:
+        if mf:
+            mf.log_metric("f1_score", best_f1)
+            for k, v in results.items():
+                mf.log_metric(f"cv_f1_{k}", v)
+    registry.save_model("health_classifier", best_pipe, meta)
+    logger.info("health_classifier trained: %s F1=%.3f (target>0.75: %s)",
+                best_name, best_f1, meta["meets_target"])
+    return meta
+
+
 def train_all(session: Session) -> dict:
-    """Train both Phase-1 models and return their metadata."""
+    """Train all 3 Capstone ML models and return their metadata."""
     return {
         "win_scorer": train_win_scorer(session),
         "revenue_forecaster": train_revenue_forecaster(session),
+        "health_classifier": train_health_classifier(session),
     }
+

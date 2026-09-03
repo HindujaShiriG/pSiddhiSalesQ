@@ -55,4 +55,15 @@ def test_admin_model_status(client):
     r = client.get("/api/admin/models")
     assert r.status_code == 200
     body = r.json()
-    assert "win_scorer" in body and "revenue_forecaster" in body
+    assert "win_scorer" in body
+    assert "revenue_forecaster" in body
+    assert "health_classifier" in body
+
+
+def test_admin_score(client):
+    r = client.post("/api/admin/score")
+    assert r.status_code == 200
+    body = r.json()
+    assert "deals" in body
+    assert "accounts" in body
+
