@@ -582,8 +582,8 @@ def main():
     add_heading_1(doc, "5. Working Demo, Repository & Live Walkthrough Plan")
     sec5_data = [
         ["Code repository URL (GitHub/GitLab)", "https://github.com/HindujaShiriG/pSiddhiSalesQ"],
-        ["Final commit ID + date (as of final submission)", "b219ea6 (03-Sep-2026)"],
-        ["Deployed / hosted URL (if any)", "http://localhost:5173 (Live interactive demo) / Azure Static Web Apps"],
+        ["Final commit ID + date (as of final submission)", "81f9850 (03-Sep-2026)"],
+        ["Deployed / hosted URL (if any)", "https://brave-grass-04da7490f.6.azurestaticapps.net (Live on Azure)"],
         ["Notebook / dashboard / other artefact links", "FastAPI Swagger Docs: http://localhost:8000/docs\nMLflow tracking: backend/mlruns/\nCoverage Report: backend/htmlcov/index.html"],
     ]
     t5 = doc.add_table(rows=len(sec5_data), cols=2)
