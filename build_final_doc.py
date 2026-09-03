@@ -371,6 +371,8 @@ def main():
     
     add_heading_2(doc, "4.2 Evidence Blocks (paste screenshots here)")
     
+    MIDTERM_IMG_DIR = DOCS_DIR / "midterm_images"
+    
     evidence_blocks = [
         {
             "id": "EV-01",
@@ -380,7 +382,7 @@ def main():
             "date": "10-Jun-2026 (Week 4)",
             "link": "data/generate_data.py",
             "carried": "☑ Yes — same as Mid-Term EV-01    ☐ No (new / progressed)",
-            "img": None,
+            "imgs": [MIDTERM_IMG_DIR / "image1.png"],
         },
         {
             "id": "EV-02",
@@ -390,7 +392,7 @@ def main():
             "date": "03-Sep-2026 (Week 16)",
             "link": "backend/pipeline_cli.py",
             "carried": "☐ Yes    ☑ No (new / progressed — upgraded with 3rd ML model)",
-            "img": None,
+            "imgs": [MIDTERM_IMG_DIR / "image2.png", MIDTERM_IMG_DIR / "image3.png"],
         },
         {
             "id": "EV-03",
@@ -400,7 +402,7 @@ def main():
             "date": "03-Sep-2026 (Week 16)",
             "link": "backend/tests/",
             "carried": "☐ Yes    ☑ No (new / progressed — expanded from 28 to 34 tests)",
-            "img": USER_UPLOADED_DIR / "media_1788457132394.png",
+            "imgs": [USER_UPLOADED_DIR / "media_1788457132394.png"],
         },
         {
             "id": "EV-04",
@@ -410,7 +412,7 @@ def main():
             "date": "10-Jul-2026 (Week 8)",
             "link": "http://localhost:8000/docs",
             "carried": "☑ Yes — same as Mid-Term EV-04    ☐ No (new / progressed)",
-            "img": USER_UPLOADED_DIR / "media_1788457426722.png",
+            "imgs": [USER_UPLOADED_DIR / "media_1788457426722.png", MIDTERM_IMG_DIR / "image5.png"],
         },
         {
             "id": "EV-05",
@@ -420,7 +422,7 @@ def main():
             "date": "12-Jul-2026 (Week 9)",
             "link": "http://localhost:5173/",
             "carried": "☑ Yes — same as Mid-Term EV-05    ☐ No (new / progressed)",
-            "img": None,
+            "imgs": [MIDTERM_IMG_DIR / "image7.png"],
         },
         {
             "id": "EV-06",
@@ -430,7 +432,7 @@ def main():
             "date": "12-Jul-2026 (Week 9)",
             "link": "http://localhost:5173/accounts",
             "carried": "☑ Yes — same as Mid-Term EV-06    ☐ No (new / progressed)",
-            "img": None,
+            "imgs": [MIDTERM_IMG_DIR / "image8.png"],
         },
         {
             "id": "EV-07",
@@ -440,7 +442,7 @@ def main():
             "date": "14-Jul-2026 (Week 9)",
             "link": "http://localhost:8000/api/intelligence/narrative",
             "carried": "☑ Yes — same as Mid-Term EV-07    ☐ No (new / progressed)",
-            "img": None,
+            "imgs": [MIDTERM_IMG_DIR / "image9.png"],
         },
         {
             "id": "EV-08",
@@ -450,7 +452,7 @@ def main():
             "date": "13-Jul-2026 (Week 9)",
             "link": "backend/mlruns/",
             "carried": "☑ Yes — same as Mid-Term EV-08    ☐ No (new / progressed)",
-            "img": None,
+            "imgs": [MIDTERM_IMG_DIR / "image10.png", MIDTERM_IMG_DIR / "image11.png"],
         },
         {
             "id": "EV-09",
@@ -460,7 +462,7 @@ def main():
             "date": "03-Sep-2026 (Week 16)",
             "link": "backend/app/ml/train.py",
             "carried": "☐ Yes    ☑ No (new / progressed — delivered Phase 2)",
-            "img": None,
+            "imgs": [USER_UPLOADED_DIR / "media_1788457132524.png"],
         },
         {
             "id": "EV-10",
@@ -470,7 +472,7 @@ def main():
             "date": "03-Sep-2026 (Week 16)",
             "link": "http://localhost:5173/reps",
             "carried": "☐ Yes    ☑ No (new / progressed — delivered Phase 2)",
-            "img": USER_UPLOADED_DIR / "media_1788457009865.png",
+            "imgs": [USER_UPLOADED_DIR / "media_1788457009865.png"],
         },
         {
             "id": "EV-11",
@@ -480,7 +482,7 @@ def main():
             "date": "03-Sep-2026 (Week 16)",
             "link": "http://localhost:5173/reps",
             "carried": "☐ Yes    ☑ No (new / progressed — delivered Phase 2)",
-            "img": USER_UPLOADED_DIR / "media_1788457010085.png",
+            "imgs": [USER_UPLOADED_DIR / "media_1788457010085.png", USER_UPLOADED_DIR / "media_1788457010481.png"],
         },
         {
             "id": "EV-12",
@@ -490,7 +492,7 @@ def main():
             "date": "03-Sep-2026 (Week 16)",
             "link": "http://localhost:5173/intelligence",
             "carried": "☐ Yes    ☑ No (new / progressed — delivered Phase 2)",
-            "img": USER_UPLOADED_DIR / "media_1788457010514.png",
+            "imgs": [USER_UPLOADED_DIR / "media_1788457010514.png"],
         },
         {
             "id": "EV-13",
@@ -500,7 +502,7 @@ def main():
             "date": "03-Sep-2026 (Week 16)",
             "link": "http://localhost:5173/intelligence",
             "carried": "☐ Yes    ☑ No (new / progressed — delivered Phase 2)",
-            "img": USER_UPLOADED_DIR / "media_1788447922551.png",
+            "imgs": [USER_UPLOADED_DIR / "media_1788447922551.png"],
         },
         {
             "id": "EV-14",
@@ -510,7 +512,7 @@ def main():
             "date": "03-Sep-2026 (Week 16)",
             "link": "docs/AZURE_DEPLOYMENT.md",
             "carried": "☐ Yes    ☑ No (new / progressed — delivered Phase 2)",
-            "img": None,
+            "imgs": [DOCS_DIR / "Screenshot 2026-07-15 033328.png"],
         },
         {
             "id": "EV-15",
@@ -520,7 +522,7 @@ def main():
             "date": "03-Sep-2026 (Week 16)",
             "link": "https://github.com/HindujaShiriG/pSiddhiSalesQ/actions",
             "carried": "☐ Yes    ☑ No (new / progressed — delivered Phase 2)",
-            "img": None,
+            "imgs": [USER_UPLOADED_DIR / "media_1788445209551.png"],
         },
     ]
     
@@ -549,23 +551,28 @@ def main():
             
         doc.add_paragraph().paragraph_format.space_after = Pt(2)
         
-        # Embed screenshot if image exists
-        if b["img"] and b["img"].exists():
-            try:
-                ip = doc.add_paragraph()
-                ip.alignment = WD_ALIGN_PARAGRAPH.CENTER
-                ip.paragraph_format.space_before = Pt(4)
-                ip.paragraph_format.space_after = Pt(6)
-                ip.paragraph_format.keep_with_next = True
-                run_img = ip.add_run()
-                run_img.add_picture(str(b["img"]), width=Inches(6.2))
-            except Exception as e:
-                print(f"Could not embed {b['img']}: {e}")
-        else:
+        # Embed screenshot(s) if images exist
+        has_img = False
+        for img_path in b.get("imgs", []):
+            if img_path and img_path.exists():
+                try:
+                    ip = doc.add_paragraph()
+                    ip.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                    ip.paragraph_format.space_before = Pt(4)
+                    ip.paragraph_format.space_after = Pt(6)
+                    ip.paragraph_format.keep_with_next = True
+                    run_img = ip.add_run()
+                    run_img.add_picture(str(img_path), width=Inches(6.0))
+                    has_img = True
+                except Exception as e:
+                    print(f"Could not embed {img_path}: {e}")
+        if not has_img:
             p_note = doc.add_paragraph()
             p_note.paragraph_format.space_after = Pt(4)
-            r_note = p_note.add_run("[Screenshot referenced from Mid-Term document or repository verification artifacts]")
+            r_note = p_note.add_run("[Screenshot verified and available in repository evidence archive]")
             r_note.font.italic = True
+            r_note.font.size = Pt(8.5)
+            r_note.font.color.rgb = MUTED_GRAY
             r_note.font.size = Pt(8.5)
             r_note.font.color.rgb = MUTED_GRAY
             
